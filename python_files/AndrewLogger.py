@@ -11,8 +11,10 @@ log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
 
 class AndrewsLogger:
-    def __init__(self, log_location: str = None, chosen_format: str = None,
+    def __init__(self, log_location: str = None,
+                 chosen_format: str = '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                  project_name: str = None, logger_levels: list = None):
+        self.chosen_format = chosen_format
 
         self.default_log_location_format = {
             "date_dir": datetime.now().date().isoformat(),
@@ -31,11 +33,6 @@ class AndrewsLogger:
             self._CheckMakeLogLocation()
         elif log_location:
             self.log_location = self._CheckMakeLogLocation()
-
-        if not chosen_format:
-            self.chosen_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-        elif chosen_format:
-            self.chosen_format = chosen_format
 
         if not project_name:
             self.project_name = self._GetProjectName()
@@ -103,4 +100,3 @@ if __name__ == "__main__":
     main_logger.FinalInit()
     # TODO: figure out a way to not let any logger calls be made unless FinalInit() has be called.
     main_logger.logger.error("error test")
-
