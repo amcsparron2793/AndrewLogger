@@ -12,7 +12,7 @@ log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
 class AndrewsLogger:
     def __init__(self, log_location: str = None,
-                 chosen_format: str = '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                 chosen_format: str = None,
                  project_name: str = None, logger_levels: list = None):
         self.chosen_format = chosen_format
 
@@ -34,13 +34,18 @@ class AndrewsLogger:
         elif log_location:
             self.log_location = self._CheckMakeLogLocation()
 
+        if not self.chosen_format:
+            self.chosen_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        elif self.chosen_format:
+            self.chosen_format = self.chosen_format
+
         if not project_name:
             self.project_name = self._GetProjectName()
         elif project_name:
             self.project_name = project_name
 
         self.logger = logging.getLogger('new_logger')
-        self.formatter = logging.Formatter(chosen_format)
+        self.formatter = logging.Formatter(self.chosen_format)
 
         self.is_initialized = False
 
